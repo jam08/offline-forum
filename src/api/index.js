@@ -17,6 +17,11 @@ export function generateID(){
  * @returns {object} the new post to be stored in the database
  */
 export function createPostObject(title = '', content = '', author){
+  if(title === '') {
+    throw new Error('Missing title');
+  }else if(content === '') {
+    throw new Error('Missing content');
+  }
   return {
     title,
     content,

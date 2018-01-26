@@ -1,17 +1,14 @@
 import React from 'react';
-import { render, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import App from '../components/App';
 import * as api from '../api/index';
 
 it('loads the app', () => {
   const wrapper = shallow(<App />);
-  expect(wrapper.find('.mt-8')).to.have.length(1);
+  expect(wrapper.find('.mt-8').length).toBe(1);
 });
 
-it('let select a persona');
-it('loads posts');
 it('loads comments');
-it('x button visible for post author');
 it('no x button on other users posts');
 it('input component takes users input');
 it('should add new post when create button is clicked');

@@ -35,7 +35,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="mt-8 mx-auto sm:w-full md:w-3/4 lg:w-2/3 ">
+      <div className="mt-8 mx-auto sm:w-full md:w-3/4 lg:w-2/3">
         <Button
           onClick={this.changePage}
           className="absolute pin-l pin-t mt-6 ml-2"
