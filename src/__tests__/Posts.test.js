@@ -1,19 +1,42 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-// import App from '../components/Posts';
+import sinon from 'sinon';
 import * as api from '../api/index';
 import Posts from '../components/Posts';
 import SinglePost from '../components/SinglePost';
-// import CreateNewPost from '../components/CreateNewPost';
 import fakePosts from '../fakePosts';
 
+beforeEach(() => {
+  localStorage.clear();
+});
 
-it('should load all posts', () => {
+it('calls componentDidMount', () => {
   localStorage.setItem('posts', JSON.stringify(fakePosts.data));
-  const wrapper = shallow(<Posts currentPersona='Zac' />);
-  // const container = wrapper.find(CreateNewPost);
-  // console.log(wrapper.find(SinglePost).first().html());
-  expect(wrapper.find(SinglePost)).toHaveLength(3);
+  sinon.spy(Posts.prototype, 'componentDidMount');
+  const wrapper = mount(<Posts currentPersona='Zac' />);
+  expect(Posts.prototype.componentDidMount.calledOnce).toEqual(true);
+  expect(wrapper.state().posts).toHaveLength(3);
+  wrapper.unmount();
+});
+
+describe('<CreateNewPost', () => {
+  it('should create new post', () => {
+    const newPost = {
+      postTitle: "Craic Dealer",
+      postContent: "Something funny here",
+      currentPersona: "Zac"
+    };
+    localStorage.setItem('posts', JSON.stringify(fakePosts.data));
+    const wrapper = mount(<Posts currentPersona={newPost.currentPersona} />);
+    const form = wrapper.find('form').first();
+    const textarea = wrapper.find('#content');
+    const input = wrapper.find('#title');
+    textarea.simulate('change', {target: {name: 'content', value: newPost.postContent} })
+    input.simulate('change', { target: {name: 'title', value: newPost.postTitle} });
+    
+    form.simulate('submit');
+    expect(wrapper.find(SinglePost)).toHaveLength(4);
+  });
 });
 
 it('create post', () => {

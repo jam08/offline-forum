@@ -1,12 +1,25 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import sinon from  'sinon';
 import App from '../components/App';
 import * as api from '../api/index';
+
+beforeEach(() => {
+  localStorage.clear();
+});
+
+it('calls componentDidMount', () => {
+  sinon.spy(App.prototype, 'componentDidMount');
+  const wrapper = mount(<App />);
+  expect(App.prototype.componentDidMount.calledOnce).toEqual(true);
+  wrapper.unmount();
+});
 
 it('loads the app', () => {
   const wrapper = shallow(<App />);
   expect(wrapper.find('.mt-8').length).toBe(1);
 });
+
 
 it('loads comments');
 it('no x button on other users posts');
