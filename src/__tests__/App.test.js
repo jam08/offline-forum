@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import sinon from  'sinon';
 import App from '../components/App';
 import Button from '../components/Button';
@@ -24,11 +25,12 @@ it('button calls "Talk to a real human" if current page is home', () => {
 });
 
 it('loads <Posts /> if current page is home', () => {
-  const wrapper = shallow(<App currentPage="home" />);
-  expect(wrapper.find(Posts).exists()).toEqual(true);
+  const wrapper = shallow(<App />);
+  expect(toJson(wrapper)).toMatchSnapshot();
 });
 
 it('loads <Bot /> if currentpage is bot', () => {
-  const wrapper = shallow(<App currentPage="home" />);
-  expect(wrapper.find(Bot).exists()).toEqual(false);
+  const wrapper = shallow(<App />);
+  wrapper.find(Button).simulate('click');
+  expect(toJson(wrapper)).toMatchSnapshot();
 });

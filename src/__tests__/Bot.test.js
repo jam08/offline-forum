@@ -1,9 +1,10 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { stub } from 'sinon';
+import toJson from 'enzyme-to-json';
 import Bot from '../components/Bot/Bot';
 import * as api from '../api/index';
 import MessageForm from '../components/Bot/MessageForm';
+import Message from '../components/Bot/Message';
 
 function flushAllPromises() {
   return new Promise(resolve => setImmediate(resolve));
@@ -42,7 +43,6 @@ describe('<Bot />', () => {
     const messageForm = wrapper.find('MessageForm');
     messageForm.simulate('submit', usermsg);
     expect(wrapper.state().message).not.toBe([]);
-    // console.log(wrapper.state());
   });
 
   it('gets a bot reply on submit', async() => {
@@ -51,8 +51,7 @@ describe('<Bot />', () => {
     const messageForm = wrapper.find(MessageForm);
     messageForm.simulate('submit', usermsg);
     jest.runAllTimers();
-    await flushAllPromises()
-    // console.log(wrapper.state());
+    await flushAllPromises();
     expect(wrapper.state().messages[1].bot).toBe(true);
   });
 });

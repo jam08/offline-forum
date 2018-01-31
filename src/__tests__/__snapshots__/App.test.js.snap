@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loads <Bot /> if currentpage is bot 1`] = `
+<div
+  className="mt-8 mx-auto sm:w-full md:w-3/4 lg:w-2/3"
+>
+  <Button
+    className="absolute pin-l pin-t mt-6 ml-2"
+    danger={false}
+    onClick={[Function]}
+  >
+    Return to forum
+  </Button>
+  <PersonaSwitcher
+    changePersona={[Function]}
+    currentPersona=""
+  />
+  <Bot />
+</div>
+`;
+
+exports[`loads <Posts /> if current page is home 1`] = `
+<div
+  className="mt-8 mx-auto sm:w-full md:w-3/4 lg:w-2/3"
+>
+  <Button
+    className="absolute pin-l pin-t mt-6 ml-2"
+    danger={false}
+    onClick={[Function]}
+  >
+    Talk to a real human
+  </Button>
+  <PersonaSwitcher
+    changePersona={[Function]}
+    currentPersona=""
+  />
+  <Posts
+    currentPersona=""
+  />
+</div>
+`;
