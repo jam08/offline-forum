@@ -47,14 +47,13 @@ describe('<Bot />', () => {
 
   it('gets a bot reply on submit', async() => {
     const usermsg = "hello";
-    const wrapper = mount(<Bot />);
+    const wrapper = shallow(<Bot />);
     const messageForm = wrapper.find(MessageForm);
     messageForm.simulate('submit', usermsg);
     jest.runAllTimers();
     await flushAllPromises()
-    //console.log(wrapper.state());
+    // console.log(wrapper.state());
     expect(wrapper.state().messages[1].bot).toBe(true);
   });
-
 });
 
