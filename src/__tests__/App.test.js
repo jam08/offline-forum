@@ -1,32 +1,34 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import sinon from  'sinon';
 import App from '../components/App';
-import * as api from '../api/index';
-
-beforeEach(() => {
-  localStorage.clear();
-});
+import Button from '../components/Button';
+import Posts from '../components/Posts';
+import Bot from '../components/Bot/Bot';
 
 it('calls componentDidMount', () => {
   sinon.spy(App.prototype, 'componentDidMount');
-  const wrapper = mount(<App />);
+  shallow(<App />);
   expect(App.prototype.componentDidMount.calledOnce).toEqual(true);
-  wrapper.unmount();
 });
 
-it('loads the app', () => {
-  const wrapper = shallow(<App />);
-  expect(wrapper.find('.mt-8').length).toBe(1);
+it('loads the bot page on click', () => {
+  const wrapper = shallow(<App currentPage="home" />);
+  wrapper.find(Button).simulate('click');
+  expect(wrapper.state().currentPage).toEqual('bot');
 });
 
+it('button calls "Talk to a real human" if current page is home', () => {
+  const wrapper = shallow(<App currentPage="home" />);
+  expect(wrapper.find(Button).children().text()).toEqual("Talk to a real human");
+});
 
-it('loads comments');
-it('no x button on other users posts');
-it('input component takes users input');
-it('should add new post when create button is clicked');
-it('should add comment when comment button is clicked');
-it('should delete post when x button is clicked');
-it('loads bot page when talk to real human button is clicked');
-it('get a reply from bot after sicka button is clicked');
-it('sicka button should be disable if no message');
+it('loads <Posts /> if current page is home', () => {
+  const wrapper = shallow(<App currentPage="home" />);
+  expect(wrapper.find(Posts).exists()).toEqual(true);
+});
+
+it('loads <Bot /> if currentpage is bot', () => {
+  const wrapper = shallow(<App currentPage="home" />);
+  expect(wrapper.find(Bot).exists()).toEqual(false);
+});
