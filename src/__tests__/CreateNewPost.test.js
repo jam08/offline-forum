@@ -7,7 +7,7 @@ import CreateNewPost from '../components/CreateNewPost';
 // import SinglePost from '../components/SinglePost';
 // import fakePosts from '../fakePosts';
 // import CreateNewComment from '../components/CreateNewComment';
-import Comments from '../components/Comments';
+// import Comments from '../components/Comments';
 
 describe('<CreateNewPost />', () => {
   it('calls preventDefault on submit', () => {

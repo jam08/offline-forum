@@ -25,7 +25,7 @@ class CreateNewComment extends Component {
   render() {
     return (
       <form
-        onSubmit={this.onSubmit}
+        onSubmit={this.props.onSubmit ? this.props.onSubmit : this.onSubmit}
         className='container mx-auto flex flex-col p-6'
       >
         <label htmlFor='comment' className='mb-2'>

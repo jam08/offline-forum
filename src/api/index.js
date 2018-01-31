@@ -87,7 +87,7 @@ export function filterComments(comments, id){
 }
 
 export function removeComment(commentId) {
-  const comments = fetchAllPosts();
+  const comments = fetchAllCommments();
   const filteredComments = comments.filter(comment => comment.id !== commentId);
   storeCommentObject(filteredComments);
 }
@@ -96,12 +96,12 @@ export function fetchCurrentPersona() {
   const currentPersona = localStorage.getItem('currentPersona');
   return currentPersona ? JSON.parse(currentPersona) : '';
 }
-
+/*
 export function fetchPersonas(){
   const personas = localStorage.getItem('personas');
   return personas ? JSON.parse(personas) : [];
 }
-
+*/
 export function storeCurrentPersona(persona) {
   const stringifiedPersona = JSON.stringify(persona);
   return localStorage.setItem('currentPersona', stringifiedPersona);

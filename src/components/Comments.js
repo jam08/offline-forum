@@ -30,6 +30,7 @@ class Comments extends Component {
         {...comment}
         key={comment.id}
         onClick={this.removeComment}
+        currentPersona={this.props.currentPersona}
       />
     ));
 
