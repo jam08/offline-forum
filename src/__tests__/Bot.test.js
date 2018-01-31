@@ -5,26 +5,56 @@ import Bot from '../components/Bot/Bot';
 import * as api from '../api/index';
 import MessageForm from '../components/Bot/MessageForm';
 
-//jest.useFakeTimers();
+function flushAllPromises() {
+  return new Promise(resolve => setImmediate(resolve));
+}
 
-it('should send message on submit', () => {
-  const newMessage = "hello hello";
-  const wrapper = mount(<Bot />);
-  const input = wrapper.find('input').filterWhere(node => node.props().type === 'text');
-  input.simulate('change', { target: {name:'userMessage', value: newMessage} });
-  // on submit, a Message component should be created.
-  const form = wrapper.find('MessageForm');
-  form.simulate('submit', newMessage);
-  const message = wrapper.find('p').filterWhere(node => node.text() === newMessage);
-  expect(message.text()).toEqual(newMessage);
-  expect(wrapper.state().messages[0].bot).toBe(false);
+jest.useFakeTimers();
 
-  /* 
-  const message = "hello";
-  const onSubmit = stub().withArgs('hello');
-  const wrapper = mount(<MessageForm onSubmit={onSubmit} />);
-  wrapper.find('MessageForm').simulate('submit');
-  console.log(onSubmit.firstCall.args);
-  expect(onSubmit.calledOnce).toEqual(true);
-  */
+describe('<MessageForm />', () => {
+  it('MessageFrom state should have user message', () => {
+    const wrapper = shallow(<MessageForm onSubmit={() => {}} />);
+    const input= wrapper.find('input').filterWhere(node => node.props().type === "text");
+    input.simulate('change', {target: {name: 'userMessage', value: "hello, hello"} });
+    expect(wrapper.state().userMessage).toEqual("hello, hello");
+  });
+
+  it('calls preventDefault on submit', () => {
+    const preventDefault = jest.fn();
+    const wrapper = shallow(<MessageForm onSubmit={() => {}} />);
+    wrapper.find('form').simulate('submit', { preventDefault });
+    expect(preventDefault).toHaveBeenCalled();
+  });
+
+  it('resets userMessage on submit', () => {
+    const wrapper = shallow(<MessageForm onSubmit={() => {}} />);
+    const input= wrapper.find('input').filterWhere(node => node.props().type === "text");
+    input.simulate('change', {target: {name: 'userMessage', value: "hello"} });
+    wrapper.find('form').simulate('submit', { preventDefault() {} });
+    expect(wrapper.state().userMessage).toBe('');
+  });
 });
+
+describe('<Bot />', () => {
+  it('typing and message state changes on submit', () => {
+    const usermsg = "hello";
+    const wrapper = shallow(<Bot />);
+    const messageForm = wrapper.find('MessageForm');
+    messageForm.simulate('submit', usermsg);
+    expect(wrapper.state().message).not.toBe([]);
+    // console.log(wrapper.state());
+  });
+
+  it('gets a bot reply on submit', async() => {
+    const usermsg = "hello";
+    const wrapper = mount(<Bot />);
+    const messageForm = wrapper.find(MessageForm);
+    messageForm.simulate('submit', usermsg);
+    jest.runAllTimers();
+    await flushAllPromises()
+    //console.log(wrapper.state());
+    expect(wrapper.state().messages[1].bot).toBe(true);
+  });
+
+});
+

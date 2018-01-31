@@ -30,7 +30,7 @@ class CreateNewPost extends Component {
     const { title, content } = this.state;
     const { errMessage } = this.state;
     return (
-      <form onSubmit={this.onSubmit} className='container mx-auto flex flex-col p-6'>
+      <form onSubmit={this.props.onSubmit ? this.props.onSubmit : this.onSubmit} className='container mx-auto flex flex-col p-6'>
         <label htmlFor='title' className='mb-2'>Title</label>
         <input type='text' value={title} onChange={this.onChange} name='title' id='title' className='shadow rounded border mb-2 p-2' />
         <label htmlFor='content' className='mb-2'>Content </label>

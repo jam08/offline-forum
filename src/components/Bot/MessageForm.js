@@ -8,7 +8,7 @@ class MessageForm extends Component {
   }
 
   componentDidMount(){
-    this.input.focus();
+    //this.input.focus();
   }
 
   onChange = ({ target }) => this.setState({ [target.name]: target.value })
