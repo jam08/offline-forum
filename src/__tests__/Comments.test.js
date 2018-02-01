@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import CreateNewComment from '../components/CreateNewComment';
 import Comments from '../components/Comments';
 import SingleComment from '../components/SingleComment';
+import Button from '../components/Button';
 
 describe('<Commments />', () => {
   it('calls componentDidMout', () => {
@@ -27,7 +28,7 @@ describe('<Commments />', () => {
     const wrapper = shallow(<Comments postId="565ddy34" currentPersona='Zac' />);
     expect(wrapper.state().comments).not.toBe([]);
   });
-
+ 
   it('onClick to remove comment is called', () => {
     const click = jest.fn();
     const comment = {
@@ -51,31 +52,36 @@ describe('<Commments />', () => {
   });
 
   it('should remove comment on click', () => {
-    const newComment = [
-      {
-        comment: "this is shite!",
+    const remove = jest.fn();
+    const newComment = {
+        comment: "this is nonsense!",
         id: "2",
         postId: "565ddy34",
-        author:"Esmeralda",
+        author:"Zac",
         date: (new Date()).toLocaleString()
-      }
-    ];
-    const stringifiedObject = JSON.stringify(newComment);
-    localStorage.setItem('comments', stringifiedObject);
-    const wrapper = shallow(<Comments postId="565ddy34" currentPersona='Zac' />);
-    expect(wrapper.state().comments).not.toEqual([]);
-    wrapper.find(SingleComment).simulate('click', "2");
-    expect(wrapper.state().comments).toEqual([]);
+      };
+    const wrapper = shallow(
+      <SingleComment 
+        id={newComment.id}
+        author={newComment.author}
+        onClick={remove}
+        currentPersona="Zac"
+        comment={newComment.comment}
+        date={newComment.date}
+      />
+    );
+    wrapper.find(Button).simulate('click');
+    expect(remove).toHaveBeenCalledWith("2");
   });
 });
   
   describe('<CreateNewComment />', () => {
-    it('should set comment state with new commment', () => {
+    it('onChange should set commment state in <CreateNewComment />', () => {
       const comment = {
           comment: "great stuff!",
           id: "2",
           postId: "565ddy34",
-          author:"Esmeralda",
+          author:"Zac",
           date: (new Date()).toLocaleString()
       };
       const wrapper = mount(

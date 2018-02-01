@@ -1,10 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import Bot from '../components/Bot/Bot';
-import * as api from '../api/index';
 import MessageForm from '../components/Bot/MessageForm';
-import Message from '../components/Bot/Message';
 
 function flushAllPromises() {
   return new Promise(resolve => setImmediate(resolve));
@@ -13,7 +10,7 @@ function flushAllPromises() {
 jest.useFakeTimers();
 
 describe('<MessageForm />', () => {
-  it('MessageFrom state should have user message', () => {
+  it('onChange sets userMessage with message', () => {
     const wrapper = shallow(<MessageForm onSubmit={() => {}} />);
     const input= wrapper.find('input').filterWhere(node => node.props().type === "text");
     input.simulate('change', {target: {name: 'userMessage', value: "hello, hello"} });
@@ -26,6 +23,7 @@ describe('<MessageForm />', () => {
     wrapper.find('form').simulate('submit', { preventDefault });
     expect(preventDefault).toHaveBeenCalled();
   });
+  
 
   it('resets userMessage on submit', () => {
     const wrapper = shallow(<MessageForm onSubmit={() => {}} />);
@@ -37,7 +35,7 @@ describe('<MessageForm />', () => {
 });
 
 describe('<Bot />', () => {
-  it('typing and message state changes on submit', () => {
+  it('state changes on submit', () => {
     const usermsg = "hello";
     const wrapper = shallow(<Bot />);
     const messageForm = wrapper.find('MessageForm');

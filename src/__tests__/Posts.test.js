@@ -19,11 +19,11 @@ describe('<Posts />', () => {
   it('render all posts', () => {
     localStorage.setItem('posts', JSON.stringify(fakePosts.data));
     const wrapper = shallow(<Posts currentPersona='Zac' /> );
-    const numPosts = wrapper.state().posts.length;
-    const posts = wrapper.find(SinglePost).length;
-    expect(posts).toEqual(numPosts);
-  })
+    const posts =  wrapper.state().posts.length;
+    expect(posts).toBe(3);
+  });
 });
+
 describe('<SinglePost />', () => {
   it('delete post efter onClick is called', () => {
     const postId = "565ddy34";
@@ -40,8 +40,8 @@ describe('<SinglePost />', () => {
         onClick={remove} 
       />);
     const button = wrapper.find('button');
-    button.simulate('click', postId);
-    expect(remove).toHaveBeenCalled();
+    button.simulate('click');
+    expect(remove).toHaveBeenCalledWith(postId);
   });
 
   it('delete button should not be visible if currentPersona is not author', () => {

@@ -11,8 +11,6 @@ describe('<CreateNewPost />', () => {
         author='Zac'
       />
     );
-    createNewPost.find('#title').simulate('change', { target: {name: 'title', value: "newpost"} });
-    createNewPost.find('#content').simulate('change', { target: {name: 'content', value: "nonsense"} });
     createNewPost.find('form').simulate('submit', { preventDefault });
     expect(preventDefault).toHaveBeenCalled();
   });
