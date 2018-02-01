@@ -25,11 +25,11 @@ describe('<Posts />', () => {
 });
 
 describe('<SinglePost />', () => {
-  it('delete post efter onClick is called', () => {
-    const postId = "565ddy34";
-    const remove = jest.fn();
-    const date = (new Date()).toLocaleString();
-    const wrapper = mount(
+  const remove = jest.fn();
+  const postId = "565ddy34";
+  const date = (new Date()).toLocaleString();
+  function componentWrapper(mockFunc) {
+    return mount(
       <SinglePost 
         title="hello" 
         content="bla bla" 
@@ -37,8 +37,12 @@ describe('<SinglePost />', () => {
         id={postId} 
         date={date} 
         currentPersona="Zac" 
-        onClick={remove} 
-      />);
+        onClick={mockFunc} 
+      />
+    );
+  }
+  it('onClick is called with right parameters', () => {
+    const wrapper = componentWrapper(remove);
     const button = wrapper.find('button');
     button.simulate('click');
     expect(remove).toHaveBeenCalledWith(postId);
